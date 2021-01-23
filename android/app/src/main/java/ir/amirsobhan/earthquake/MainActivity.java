@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Initialization();
     }
 
     public void Initialization(){
@@ -31,14 +33,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.navigation_home:
                         viewPager.setCurrentItem(0);
+                        return true;
                     case R.id.navigation_map:
                         viewPager.setCurrentItem(1);
+                        return true;
                     case R.id.navigation_location:
                         viewPager.setCurrentItem(2);
+                        return true;
                     case R.id.navigation_chart:
                         viewPager.setCurrentItem(3);
+                        return true;
                     case R.id.navigation_search:
                         viewPager.setCurrentItem(4);
+                        return true;
                 }
                 return false;
             }

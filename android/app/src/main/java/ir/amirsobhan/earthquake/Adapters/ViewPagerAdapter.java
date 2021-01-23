@@ -32,7 +32,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 4:
                 return new SearchFragment();
         }
-
         return null;
     }
 
