@@ -2,12 +2,10 @@ package ir.amirsobhan.earthquake;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,7 +13,7 @@ import ir.amirsobhan.earthquake.Adapters.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
-    ViewPager viewPager;
+    ViewPager2 viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     public void Initialization(){
         navigationView = findViewById(R.id.bottom_navigation);
         viewPager = findViewById(R.id.main_viewpager);
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle()));
+
+        viewPager.setUserInputEnabled(false);
+        viewPager.setOffscreenPageLimit(5);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -34,8 +34,8 @@ class Converter
             ],
             'time'=>[
                 'hour'=>$time[0],
-                'second'=>$time[1],
-                'millisecond'=>$time[2]
+                'min'=>$time[1],
+                'sec'=>$time[2]
             ]
         ];
     }
