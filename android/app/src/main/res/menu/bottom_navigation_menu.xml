@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_home"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_list_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/navigation_map"
+        android:title="Map"
+        android:icon="@drawable/ic_baseline_map_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/navigation_location"
+        android:title="Location"
+        android:icon="@drawable/ic_baseline_my_location_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/navigation_chart"
+        android:title="Chart"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/navigation_search"
+        android:title="Search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"/>
+</menu>
