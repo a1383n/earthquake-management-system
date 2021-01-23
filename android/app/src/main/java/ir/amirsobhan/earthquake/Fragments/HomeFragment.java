@@ -5,13 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ir.amirsobhan.earthquake.Adapters.EarthquakeAdapter;
 import ir.amirsobhan.earthquake.Models.Earthquake;
 import ir.amirsobhan.earthquake.R;
 import ir.amirsobhan.earthquake.Retrofit.ApiService;
@@ -21,18 +25,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    ApiService apiService;
+    private ApiService apiService;
+    private RecyclerView recyclerView;
+    private EarthquakeAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
 
-        Initialization();
+        Initialization(view);
 
 
         apiService.getLast20Earthquakes().enqueue(new Callback<List<Earthquake>>() {
             @Override
             public void onResponse(Call<List<Earthquake>> call, Response<List<Earthquake>> response) {
+                adapter = new EarthquakeAdapter(getContext(),response.body());
+                recyclerView.setAdapter(adapter);
+
                 Log.d("JSON",response.body().size()+"");
             }
 
@@ -45,7 +55,10 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void Initialization(){
+    private void Initialization(View view){
         apiService = RetrofitClient.getApiService();
+        recyclerView = view.findViewById(R.id.recyclerView_home);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 }
