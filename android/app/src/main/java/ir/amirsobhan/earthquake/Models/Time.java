@@ -9,12 +9,12 @@ public class Time {
     @SerializedName("hour")
     @Expose
     private String hour;
-    @SerializedName("second")
+    @SerializedName("min")
     @Expose
-    private String second;
-    @SerializedName("millisecond")
+    private String min;
+    @SerializedName("sec")
     @Expose
-    private String millisecond;
+    private String sec;
 
     public String getHour() {
         return hour;
@@ -24,20 +24,20 @@ public class Time {
         this.hour = hour;
     }
 
-    public String getSecond() {
-        return second;
+    public String getMin() {
+        return min;
     }
 
-    public void setSecond(String second) {
-        this.second = second;
+    public void setMin(String min) {
+        this.min = min;
     }
 
-    public String getMillisecond() {
-        return millisecond;
+    public String getSec() {
+        return sec;
     }
 
-    public void setMillisecond(String millisecond) {
-        this.millisecond = millisecond;
+    public void setSec(String sec) {
+        this.sec = sec;
     }
 
 }
