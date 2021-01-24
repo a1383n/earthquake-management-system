@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ public class HomeFragment extends Fragment {
     private ApiService apiService;
     private RecyclerView recyclerView;
     private EarthquakeAdapter adapter;
-
+    private ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Earthquake>> call, Response<List<Earthquake>> response) {
                 adapter = new EarthquakeAdapter(getContext(),response.body());
                 recyclerView.setAdapter(adapter);
-
-                Log.d("JSON",response.body().size()+"");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
     private void Initialization(View view){
         apiService = RetrofitClient.getApiService();
         recyclerView = view.findViewById(R.id.recyclerView_home);
+        progressBar = view.findViewById(R.id.progressBar_home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
