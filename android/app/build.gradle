@@ -42,5 +42,5 @@ dependencies {
     // Retrofit2 Converter
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0';
 }

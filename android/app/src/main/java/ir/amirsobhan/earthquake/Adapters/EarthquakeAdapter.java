@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ir.amirsobhan.earthquake.Helper.Converter;
 import ir.amirsobhan.earthquake.Models.Earthquake;
 import ir.amirsobhan.earthquake.R;
 
@@ -32,11 +33,17 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //Get item from list
         Earthquake earthquake = earthquakeList.get(position);
+
+        //Set values
         holder.city.setText(earthquake.getReg1().getCity());
         holder.state.setText(earthquake.getReg1().getState());
-        holder.mag.setText(earthquake.getMag());
+        holder.mag.setText(Converter.toFaNum(earthquake.getMag()));
         holder.date.setText(earthquake.getDate().getDate().getYear());
+
+        //Set Properties
+        holder.mag.setBackgroundColor(Converter.magToColor(Double.valueOf(earthquake.getMag())));
     }
 
     @Override

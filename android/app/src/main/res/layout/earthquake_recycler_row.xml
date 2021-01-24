@@ -33,7 +33,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="TextView"
-            android:textSize="25dp"
+            android:textSize="23dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/eq_row_mag"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="TextView"
-            android:textSize="20dp"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/eq_row_city"
             app:layout_constraintEnd_toStartOf="@+id/eq_row_city"
             app:layout_constraintTop_toTopOf="@+id/eq_row_city" />
