@@ -18,6 +18,6 @@
         "sort-packages": true
     },
     "autoload": {
-        "files": ["Converter.php", "Data.php"]
+        "files": ["Converter.php", "Data.php","jdf.php"]
     }
 }

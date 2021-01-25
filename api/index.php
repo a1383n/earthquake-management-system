@@ -15,7 +15,7 @@ $db = new Capsule;
 $db->addConnection([
     'driver' => 'mysql',
     'host' => 'localhost',
-    'database' => 'earthquake-management',
+    'database' => 'eq',
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',
@@ -74,7 +74,7 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
 
     //Run query
     $result = $result->get();
-    $result = Converter::autoConvert($result);
+    $result = Converter::toList($result);
 
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
@@ -82,10 +82,7 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
 $app->get("/earthquakes/{id}", function (Request $request, Response $response, $args) {
     $result = Capsule::table("earthquakes")->find($args['id']);
 
-    $result->date = Converter::date($result->date);
-    $result->reg1 = Converter::location($result->reg1);
-    $result->reg2 = Converter::location($result->reg2);
-    $result->reg3 = Converter::location($result->reg3);
+    $result = Converter::toSingleModel($result);
 
     if (!$result) {
         $response->getBody()->write(json_encode([

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 class Converter
 {
     /**
@@ -7,49 +9,71 @@ class Converter
      * @param $string
      * @return array
      */
-    public static function location($string){
-        $array =  explode("،",$string,2);
+    public static function location($string)
+    {
+        $array = explode("،", $string, 2);
         return [
-            'state'=>trim($array[1]),
-            'city'=>trim($array[0])
+            trim($array[1]),
+            trim($array[0])
         ];
     }
 
     /**
      * Convert String date to array
      * @param $string
-     * @return array[]
+     * @return false|int
      */
-    public static function date($string){
-        $array = explode(" ",$string,2);
+    public static function date($string)
+    {
+        $array = explode(" ", $string, 2);
 
-        $date = explode("/",$array[0],3);
-        $time = explode(":",$array[1],3);
+        $date = explode("/", $array[0], 3);
+        $time = explode(":", $array[1], 3);
 
-        return [
-            'date'=>[
-                'year'=>$date[0],
-                'month'=>$date[1],
-                'day'=>$date[2]
-            ],
-            'time'=>[
-                'hour'=>$time[0],
-                'min'=>$time[1],
-                'sec'=>$time[2]
-            ]
-        ];
+        return jmktime($time[0], $time[1], round($time[2]), $date[1], $date[2], $date[0]);
     }
 
-    public static function autoConvert($result){
-        for ($i = 0;$i < $result->count();$i++){
-            $result[$i]->reg1 = Converter::location($result[$i]->reg1);
-            $result[$i]->reg2 = Converter::location($result[$i]->reg2);
-            $result[$i]->reg3 = Converter::location($result[$i]->reg3);
-
-            $result[$i]->date = Converter::date($result[$i]->date);
-
+    public static function toList($result)
+    {
+        $short = array();
+        for ($i = 0; $i < $result->count(); $i++) {
+            $data = $result[$i];
+            $province = Capsule::table('provinces')->where('fa_title', '=', self::location($data->reg1)[0])->get()[0];
+            array_push($short, [
+                'id' => $data->id,
+                'region' => self::location($data->reg1)[1],
+                'province'=>[
+                    'id' => $province->id,
+                    'fa_title' => $province->fa_title,
+                    'en_title' => $province->en_title
+                ],
+                'lat'=>(double) $data->lat,
+                'long'=> (double) $data->lon,
+                'mag'=>(double) $data->mag,
+                'dep' =>(int) $data->dep,
+                'timestamp'=>self::date($data->date)
+            ]);
         }
 
-        return $result;
+        return $short;
+    }
+
+    public static function toSingleModel($result){
+        $province = Capsule::table('provinces')->where('fa_title', '=', self::location($result->reg1)[0])->get()[0];
+
+        return [
+            'id' => $result->id,
+            'region' => self::location($result->reg1)[1],
+            'province'=>[
+                'id' => $result->id,
+                'fa_title' => $province->fa_title,
+                'en_title' => $province->en_title
+            ],
+            'lat'=>(double) $result->lat,
+            'long'=> (double) $result->lon,
+            'mag'=>(double) $result->mag,
+            'dep' =>(int) $result->dep,
+            'timestamp'=>self::date($result->date)
+        ];
     }
 }
