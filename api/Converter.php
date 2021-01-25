@@ -39,9 +39,15 @@ class Converter
         for ($i = 0; $i < $result->count(); $i++) {
             $data = $result[$i];
             $province = Capsule::table('provinces')->where('fa_title', '=', self::location($data->reg1)[0])->get()[0];
+            $region = Capsule::table('regions')->where('fa_title','=',self::location($data->reg1)[1])->get()[0];
+
             array_push($short, [
                 'id' => $data->id,
-                'region' => self::location($data->reg1)[1],
+                'region' => [
+                    'id'=>$region->id,
+                    'fa_title'=>$region->fa_title,
+                    'en_title'=>$region->en_title
+                ],
                 'province'=>[
                     'id' => $province->id,
                     'fa_title' => $province->fa_title,
@@ -60,10 +66,15 @@ class Converter
 
     public static function toSingleModel($result){
         $province = Capsule::table('provinces')->where('fa_title', '=', self::location($result->reg1)[0])->get()[0];
+        $region = Capsule::table('regions')->where('fa_title','=',self::location($result->reg1)[1])->get()[0];
 
         return [
             'id' => $result->id,
-            'region' => self::location($result->reg1)[1],
+            'region' => [
+                'id'=>$region->id,
+                'fa_title'=>$region->fa_title,
+                'en_title'=>$region->en_title
+            ],
             'province'=>[
                 'id' => $result->id,
                 'fa_title' => $province->fa_title,
@@ -75,5 +86,9 @@ class Converter
             'dep' =>(int) $result->dep,
             'timestamp'=>self::date($result->date)
         ];
+    }
+
+    public static function timestampToJalali($timestamp){
+        return jdate("Y/m/d",$timestamp,'','','en');
     }
 }

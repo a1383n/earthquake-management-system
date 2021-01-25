@@ -47,28 +47,29 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
 
     //Add filter
     # Date filter
-    $year = (isset($request->getQueryParams()["year"])) ? (int)$request->getQueryParams()["year"] : null;
-    if ($year) {
-        $month = (isset($request->getQueryParams()["month"])) ? $request->getQueryParams()["month"] : null;
-        $day = (isset($request->getQueryParams()["day"])) ? $request->getQueryParams()["day"] : null;
-
-        if ($month && $day) {
-            $result->where('date', 'like', '%' . $year . '/' . $month . '/' . $day . '%');
-        } elseif ($month) {
-            $result->where('date', 'like', '%' . $year . '/' . $month . '%');
-        } else {
-            $result->where('date', 'like', '%' . $year . '%');
-        }
+    $timestamp = (isset($request->getQueryParams()["timestamp"])) ? (int)$request->getQueryParams()["timestamp"] : null;
+    if ($timestamp) {
+            $result->where('date', 'like', Converter::timestampToJalali($timestamp) . '%');
     }
 
     # Location filter
-    $state = (isset($request->getQueryParams()["state"])) ? $request->getQueryParams()["state"] : null;
-    if ($state) {
-        $city = (isset($request->getQueryParams()["city"])) ? $request->getQueryParams()["city"] : null;
-        if ($city) {
-            $result->where('reg1', 'like', '%' . $state . '%')->where('reg1', 'like', '%' . $city . '%');
-        } else {
-            $result->where('reg1', 'like', '%' . $state . '%');
+    $province = (isset($request->getQueryParams()["province"])) ? $request->getQueryParams()["province"] : null;
+    if ($province) {
+        if ($province <= Capsule::table('provinces')->count()) {
+            $region = (isset($request->getQueryParams()["region"])) ? $request->getQueryParams()["region"] : null;
+            $province = Capsule::table('provinces')->find($province)->fa_title;
+            if ($region) {
+                $region = Capsule::table('regions')->find($region)->fa_title;
+                $result->where('reg1', 'like', '%' . $province . '%')->where('reg1', 'like', '%' . $region . '%');
+            } else {
+                $result->where('reg1', 'like', '%' . $province . '%');
+            }
+        }else{
+            $response->getBody()->write(json_encode([
+                'ok'=>false,
+                'des'=>'Province not found with this id'
+            ]));
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
@@ -82,8 +83,6 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
 $app->get("/earthquakes/{id}", function (Request $request, Response $response, $args) {
     $result = Capsule::table("earthquakes")->find($args['id']);
 
-    $result = Converter::toSingleModel($result);
-
     if (!$result) {
         $response->getBody()->write(json_encode([
             'ok' => false,
@@ -91,24 +90,25 @@ $app->get("/earthquakes/{id}", function (Request $request, Response $response, $
         ]));
         return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
     } else {
+        $result = Converter::toSingleModel($result);
         $response->getBody()->write(json_encode($result));
     }
 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get("/states", function (Request $request, Response $response) {
-    $result = Capsule::table('states')->get();
+$app->get("/provinces", function (Request $request, Response $response) {
+    $result = Capsule::table('provinces')->get();
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
 });
-$app->get("/states/{id}", function (Request $request, Response $response, $args) {
-    $state = Capsule::table('states')->find($args['id']);
-    $cities = Capsule::table('cities')->where('state_id', '=', $args['id'])->get();
+$app->get("/provinces/{id}", function (Request $request, Response $response, $args) {
+    $state = Capsule::table('provinces')->find($args['id']);
+    $cities = Capsule::table('regions')->where('province_id', '=', $args['id'])->get();
 
     $response->getBody()->write(json_encode([
-        'state' => $state,
-        'cities' => $cities
+        'province' => $state,
+        'regions' => $cities
     ]));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -137,15 +137,15 @@ $app->get('/sync', function (Request $request, Response $response) {
 
             $row->reg1 = Converter::location($row->reg1);
 
-            if (Capsule::table('states')->where('fa_title', '=', $row->reg1['state'])->get()->count() == 0) {
-                Capsule::table('states')->insert([
-                    'fa_title' => $row->reg1['state']
+            if (Capsule::table('provinces')->where('fa_title', '=', $row->reg1[0])->get()->count() == 0) {
+                Capsule::table('provinces')->insert([
+                    'fa_title' => $row->reg1[0]
                 ]);
             }
-            if (Capsule::table('cities')->where('fa_title', '=', $row->reg1['city'])->get()->count() == 0) {
-                Capsule::table('cities')->insert([
-                    'state_id' => Capsule::table('states')->where('fa_title', '=', $row->reg1['state'])->get('id')[0]->id,
-                    'fa_title' => $row->reg1['city']
+            if (Capsule::table('regions')->where('fa_title', '=', $row->reg1[1])->get()->count() == 0) {
+                Capsule::table('regions')->insert([
+                    'province_id' => Capsule::table('provinces')->where('fa_title', '=', $row->reg1[0])->get('id')[0]->id,
+                    'fa_title' => $row->reg1[1]
                 ]);
             }
         }
