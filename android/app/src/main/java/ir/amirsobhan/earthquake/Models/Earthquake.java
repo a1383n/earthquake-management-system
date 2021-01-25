@@ -4,6 +4,8 @@ package ir.amirsobhan.earthquake.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ir.amirsobhan.earthquake.Adapters.EarthquakeAdapter;
+
 public class Earthquake {
 
     @SerializedName("id")
@@ -42,6 +44,9 @@ public class Earthquake {
     @SerializedName("date")
     @Expose
     private Date date;
+
+    private int viewType = EarthquakeAdapter.VIEW_TYPE_DETAIL;
+
 
     public Integer getId() {
         return id;
@@ -139,4 +144,11 @@ public class Earthquake {
         this.date = date;
     }
 
+    public int getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
 }
