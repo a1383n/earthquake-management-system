@@ -88,7 +88,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return earthquakeList.size();
     }
 
-    private List<Earthquake> addViewType(List<Earthquake> earthquakeList) {
+    public List<Earthquake> addViewType(List<Earthquake> earthquakeList) {
         for (int i = 1; i < earthquakeList.size(); i++) {
             int i2 = i - 1;
 

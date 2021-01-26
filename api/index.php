@@ -73,6 +73,11 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
         }
     }
 
+    $page = (isset($request->getQueryParams()["page"])) ? $request->getQueryParams()["page"] : 1;
+
+    //Set pages config
+    $result->paginate(20,['*'],null,$page);
+
     //Run query
     $result = $result->get();
     $result = Converter::toList($result);

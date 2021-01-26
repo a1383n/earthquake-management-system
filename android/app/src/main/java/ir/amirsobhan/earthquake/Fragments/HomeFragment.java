@@ -13,11 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.amirsobhan.earthquake.Adapters.EarthquakeAdapter;
 import ir.amirsobhan.earthquake.Helper.Converter;
+import ir.amirsobhan.earthquake.Helper.EndlessRecyclerViewScrollListener;
 import ir.amirsobhan.earthquake.Helper.Utils.PersianCalendar;
 import ir.amirsobhan.earthquake.Models.Earthquake;
 import ir.amirsobhan.earthquake.R;
@@ -29,28 +32,41 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     private ApiService apiService;
+    private List<Earthquake> earthquakeList;
     private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     private EarthquakeAdapter adapter;
     private ProgressBar progressBar;
     private TextView rowHead;
+    private SwipeRefreshLayout refreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         Initialization(view);
 
+        //Set EndLess mode
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                getEarthquakesList(page,earthquakeList.size());
+                Log.d("EndLess",page+"");
+            }
+        });
 
-        apiService.getLast20Earthquakes().enqueue(new Callback<List<Earthquake>>() {
+        return view;
+    }
+    private void getEarthquakesList(int page,int lat_index){
+        apiService.getEarthquakesList(page).enqueue(new Callback<List<Earthquake>>() {
             @Override
             public void onResponse(Call<List<Earthquake>> call, Response<List<Earthquake>> response) {
-                adapter = new EarthquakeAdapter(getContext(), response.body());
-                recyclerView.setAdapter(adapter);
+                adapter.addViewType(response.body());
+                earthquakeList.addAll(lat_index,response.body());
+                adapter.notifyItemRangeChanged(adapter.getItemCount(),earthquakeList.size() - 1);
                 progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-
-                Log.d("List",response.body().size()+"");
+                rowHead.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -58,7 +74,6 @@ public class HomeFragment extends Fragment {
                 Log.d("JSON", t.toString());
             }
         });
-        return view;
     }
 
     private void setRowHead(Earthquake earthquake) {
@@ -71,9 +86,17 @@ public class HomeFragment extends Fragment {
         apiService = RetrofitClient.getApiService();
         recyclerView = view.findViewById(R.id.recyclerView_home);
         progressBar = view.findViewById(R.id.progressBar_home);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         rowHead = view.findViewById(R.id.eq_row_head_date);
+        refreshLayout = view.findViewById(R.id.home_refresh);
 
+        earthquakeList = new ArrayList<>();
+        adapter = new EarthquakeAdapter(getContext(),earthquakeList);
+
+        recyclerView.setAdapter(adapter);
+
+        getEarthquakesList(0,0);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -85,6 +108,17 @@ public class HomeFragment extends Fragment {
                 } else {
                     rowHead.setText(Converter.toFaNum(((EarthquakeAdapter.ViewHolder) recyclerView.getChildViewHolder(first)).head_date));
                 }
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                linearLayoutManager = new LinearLayoutManager(getContext());
+                earthquakeList = new ArrayList<>();
+                adapter = new EarthquakeAdapter(getContext(),earthquakeList);
+                recyclerView.setAdapter(adapter);
+                getEarthquakesList(0,0);
             }
         });
     }

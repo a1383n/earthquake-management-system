@@ -46,4 +46,6 @@ dependencies {
     implementation 'io.github.inflationx:viewpump:2.0.3'
 
     implementation 'org.zakariya.stickyheaders:stickyheaders:0.7.10';
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 }
