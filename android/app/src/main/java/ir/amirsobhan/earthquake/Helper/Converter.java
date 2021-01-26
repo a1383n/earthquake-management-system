@@ -32,4 +32,7 @@ public class Converter {
         }
     }
 
+    public static long toTimestampLong(int time){
+        return Long.parseLong(time +"000");
+    }
 }

@@ -1,6 +1,7 @@
 package ir.amirsobhan.earthquake.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.zakariya.stickyheaders.SectioningAdapter;
-
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import ir.amirsobhan.earthquake.Helper.Converter;
@@ -59,36 +60,24 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ViewHolder viewHolder = (ViewHolder) holder;
             //Set date
             PersianCalendar calendar = new PersianCalendar();
-            calendar.setPersianDate(
-                    Integer.valueOf(earthquake.getDate().getDate().getYear()),
-                    Integer.valueOf(earthquake.getDate().getDate().getMonth()),
-                    Integer.valueOf(earthquake.getDate().getDate().getDay())
-            );
+            calendar.setTimeInMillis(earthquake.getTimestamp());
 
 
             //Set values
-            viewHolder.city.setText(earthquake.getReg1().getCity());
-            viewHolder.state.setText(earthquake.getReg1().getState());
-            viewHolder.mag.setText(Converter.toFaNum(earthquake.getMag()));
+            viewHolder.city.setText(earthquake.getRegion().getFaTitle());
+            viewHolder.state.setText(earthquake.getProvince().getFaTitle());
+            viewHolder.mag.setText(Converter.toFaNum(earthquake.getMag().toString()));
 
             viewHolder.head_date = calendar.getPersianLongDate();
             //Set Properties
-            viewHolder.mag.setBackgroundColor(Converter.magToColor(Double.valueOf(earthquake.getMag())));
-
-            calendar.set(PersianCalendar.HOUR_OF_DAY, Integer.valueOf(earthquake.getDate().getTime().getHour()));
-            calendar.set(PersianCalendar.MINUTE, Integer.valueOf(earthquake.getDate().getTime().getMin()));
-            calendar.set(PersianCalendar.SECOND, (int) Math.round(Double.valueOf(earthquake.getDate().getTime().getSec())));
+            viewHolder.mag.setBackgroundColor(Converter.magToColor(earthquake.getMag()));
 
 
             viewHolder.date.setText(Converter.toFaNum(calendar.getPersianLongDateAndTime()));
         }else{
             //Set date
             PersianCalendar calendar = new PersianCalendar();
-            calendar.setPersianDate(
-                    Integer.valueOf(earthquake.getDate().getDate().getYear()),
-                    Integer.valueOf(earthquake.getDate().getDate().getMonth()),
-                    Integer.valueOf(earthquake.getDate().getDate().getDay())
-            );
+            calendar.setTimeInMillis(earthquake.getTimestamp());
 
             ((StickyDateViewHolder) holder).head_date.setText(Converter.toFaNum(calendar.getPersianLongDate()));
         }
@@ -100,18 +89,20 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private List<Earthquake> addViewType(List<Earthquake> earthquakeList) {
-//
-//        Earthquake eq = new Earthquake();
-//        eq.setViewType(VIEW_TYPE_DATE);
-//        eq.setDate(earthquakeList.get(1).getDate());
-//        earthquakeList.add(0, eq);
-
         for (int i = 1; i < earthquakeList.size(); i++) {
             int i2 = i - 1;
-            if (earthquakeList.get(i2).getViewType() != VIEW_TYPE_DATE && !earthquakeList.get(i2).getDate().getDate().getDay().equals(earthquakeList.get(i).getDate().getDate().getDay())) {
+
+            //Set date
+            PersianCalendar calendar_1 = new PersianCalendar();
+            calendar_1.setTimeInMillis(earthquakeList.get(i).getTimestamp());
+            //
+            PersianCalendar calendar_2 = new PersianCalendar();
+            calendar_2.setTimeInMillis(earthquakeList.get(i2).getTimestamp());
+
+            if (earthquakeList.get(i2).getViewType() != VIEW_TYPE_DATE && calendar_2.getPersianDay() != calendar_1.getPersianDay()) {
                 Earthquake earthquake = new Earthquake();
                 earthquake.setViewType(VIEW_TYPE_DATE);
-                earthquake.setDate(earthquakeList.get(i).getDate());
+                earthquake.setTimestamp(earthquakeList.get(i).getTimestamp());
                 earthquakeList.add(i, earthquake);
             }
         }

@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,11 +63,7 @@ public class HomeFragment extends Fragment {
 
     private void setRowHead(Earthquake earthquake) {
         PersianCalendar calendar = new PersianCalendar();
-        calendar.setPersianDate(
-                Integer.valueOf(earthquake.getDate().getDate().getYear()),
-                Integer.valueOf(earthquake.getDate().getDate().getMonth()),
-                Integer.valueOf(earthquake.getDate().getDate().getDay())
-        );
+        calendar.setTimeInMillis(earthquake.getTimestamp());
         rowHead.setText(Converter.toFaNum(calendar.getPersianLongDate()));
     }
 

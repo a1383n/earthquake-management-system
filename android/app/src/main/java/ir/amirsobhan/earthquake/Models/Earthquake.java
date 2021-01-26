@@ -11,42 +11,29 @@ public class Earthquake {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("reg1")
+    @SerializedName("region")
     @Expose
-    private Reg1 reg1;
-    @SerializedName("dis1")
+    private Region region;
+    @SerializedName("province")
     @Expose
-    private String dis1;
-    @SerializedName("reg2")
-    @Expose
-    private Reg2 reg2;
-    @SerializedName("dis2")
-    @Expose
-    private String dis2;
-    @SerializedName("reg3")
-    @Expose
-    private Reg3 reg3;
-    @SerializedName("dis3")
-    @Expose
-    private String dis3;
-    @SerializedName("mag")
-    @Expose
-    private String mag;
-    @SerializedName("dep")
-    @Expose
-    private String dep;
-    @SerializedName("lon")
-    @Expose
-    private String lon;
+    private Province province;
     @SerializedName("lat")
     @Expose
-    private String lat;
-    @SerializedName("date")
+    private Double lat;
+    @SerializedName("long")
     @Expose
-    private Date date;
+    private Double _long;
+    @SerializedName("mag")
+    @Expose
+    private Double mag;
+    @SerializedName("dep")
+    @Expose
+    private Integer dep;
+    @SerializedName("timestamp")
+    @Expose
+    private long timestamp;
 
     private int viewType = EarthquakeAdapter.VIEW_TYPE_DETAIL;
-
 
     public Integer getId() {
         return id;
@@ -56,92 +43,64 @@ public class Earthquake {
         this.id = id;
     }
 
-    public Reg1 getReg1() {
-        return reg1;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setReg1(Reg1 reg1) {
-        this.reg1 = reg1;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
-    public String getDis1() {
-        return dis1;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setDis1(String dis1) {
-        this.dis1 = dis1;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
-    public Reg2 getReg2() {
-        return reg2;
-    }
-
-    public void setReg2(Reg2 reg2) {
-        this.reg2 = reg2;
-    }
-
-    public String getDis2() {
-        return dis2;
-    }
-
-    public void setDis2(String dis2) {
-        this.dis2 = dis2;
-    }
-
-    public Reg3 getReg3() {
-        return reg3;
-    }
-
-    public void setReg3(Reg3 reg3) {
-        this.reg3 = reg3;
-    }
-
-    public String getDis3() {
-        return dis3;
-    }
-
-    public void setDis3(String dis3) {
-        this.dis3 = dis3;
-    }
-
-    public String getMag() {
-        return mag;
-    }
-
-    public void setMag(String mag) {
-        this.mag = mag;
-    }
-
-    public String getDep() {
-        return dep;
-    }
-
-    public void setDep(String dep) {
-        this.dep = dep;
-    }
-
-    public String getLon() {
-        return lon;
-    }
-
-    public void setLon(String lon) {
-        this.lon = lon;
-    }
-
-    public String getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public Date getDate() {
-        return date;
+    public Double getLong() {
+        return _long;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setLong(Double _long) {
+        this._long = _long;
+    }
+
+    public Double getMag() {
+        return mag;
+    }
+
+    public void setMag(Double mag) {
+        this.mag = mag;
+    }
+
+    public Integer getDep() {
+        return dep;
+    }
+
+    public void setDep(Integer dep) {
+        this.dep = dep;
+    }
+
+    public long getTimestamp() {
+        return Long.parseLong(timestamp + "000");
+    }
+
+    public void setTimestamp(long timestamp) {
+        if (String.valueOf(timestamp).length() == 13){
+            this.timestamp = (timestamp / 1000);
+        }else{
+            this.timestamp = (timestamp);
+        }
     }
 
     public int getViewType() {
