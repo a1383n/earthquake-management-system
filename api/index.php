@@ -49,7 +49,7 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
     # Date filter
     $timestamp = (isset($request->getQueryParams()["timestamp"])) ? (int)$request->getQueryParams()["timestamp"] : null;
     if ($timestamp) {
-            $result->where('date', 'like', Converter::timestampToJalali($timestamp) . '%');
+        $result->where('date', 'like', Converter::timestampToJalali($timestamp) . '%');
     }
 
     # Location filter
@@ -64,10 +64,10 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
             } else {
                 $result->where('reg1', 'like', '%' . $province . '%');
             }
-        }else{
+        } else {
             $response->getBody()->write(json_encode([
-                'ok'=>false,
-                'des'=>'Province not found with this id'
+                'ok' => false,
+                'des' => 'Province not found with this id'
             ]));
             return $response->withHeader('Content-Type', 'application/json');
         }
@@ -76,7 +76,7 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
     $page = (isset($request->getQueryParams()["page"])) ? $request->getQueryParams()["page"] : 1;
 
     //Set pages config
-    $result->paginate(20,['*'],null,$page);
+    $result->paginate(20, ['*'], null, $page);
 
     //Run query
     $result = $result->get();
@@ -85,7 +85,8 @@ $app->get('/earthquakes', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
 });
-$app->get("/earthquakes/{id}", function (Request $request, Response $response, $args) {
+
+$app->get("/earthquakes/{id:[0-9]+}", function (Request $request, Response $response, $args) {
     $result = Capsule::table("earthquakes")->find($args['id']);
 
     if (!$result) {
@@ -97,6 +98,36 @@ $app->get("/earthquakes/{id}", function (Request $request, Response $response, $
     } else {
         $result = Converter::toSingleModel($result);
         $response->getBody()->write(json_encode($result));
+    }
+
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get("/earthquakes/nearby", function (Request $request, Response $response, $args) {
+    $lat = (isset($request->getQueryParams()["lat"])) ? $request->getQueryParams()["lat"] : null;
+    $long = (isset($request->getQueryParams()["long"])) ? $request->getQueryParams()["long"] : null;
+
+    if ($lat && $long) {
+
+        $sql = "SELECT *, 
+            ( 3959 * acos( cos( radians('$lat') ) *  
+            cos( radians( lat ) ) * 
+            cos( radians( lon ) - 
+            radians('$long') ) + 
+            sin( radians('$lat') ) * 
+            sin( radians( lat ) ) ) ) 
+            AS dis1 FROM earthquakes HAVING dis1 < '30' ORDER BY mag DESC";
+
+        $result = Converter::toList(Capsule::connection()->select($sql));
+
+        $response->getBody()->write(json_encode(array(
+            'data'=>(sizeof($result) > 0) ? $result[0] : null,
+            'metadata'=>[
+                'count'=>sizeof($result)
+            ]
+        )));
+    }else{
+        $response->getBody()->write(json_encode(['ok'=>'false','des'=>'Lat and Long should not be empty']));
     }
 
     return $response->withHeader('Content-Type', 'application/json');

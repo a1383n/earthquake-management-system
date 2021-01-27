@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.amirsobhan.earthquake.Adapters.ViewPagerAdapter;
+import ir.amirsobhan.earthquake.Fragments.LocationFragment;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;

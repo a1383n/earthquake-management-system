@@ -36,7 +36,7 @@ class Converter
     public static function toList($result)
     {
         $short = array();
-        for ($i = 0; $i < $result->count(); $i++) {
+        for ($i = 0; $i < sizeof($result); $i++) {
             $data = $result[$i];
             $province = Capsule::table('provinces')->where('fa_title', '=', self::location($data->reg1)[0])->get()[0];
             $region = Capsule::table('regions')->where('fa_title','=',self::location($data->reg1)[1])->get()[0];

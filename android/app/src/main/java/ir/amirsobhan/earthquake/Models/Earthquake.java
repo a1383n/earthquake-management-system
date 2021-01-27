@@ -33,6 +33,7 @@ public class Earthquake {
     @Expose
     private long timestamp;
 
+
     private int viewType = EarthquakeAdapter.VIEW_TYPE_DETAIL;
 
     public Integer getId() {
