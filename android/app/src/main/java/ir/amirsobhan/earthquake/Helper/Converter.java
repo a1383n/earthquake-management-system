@@ -2,6 +2,8 @@ package ir.amirsobhan.earthquake.Helper;
 
 import android.graphics.Color;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
 public class Converter {
     public static String toFaNum(String faNumbers) {
         String[][] mChars = new String[][]{
@@ -29,6 +31,16 @@ public class Converter {
             return Color.parseColor("#FFA500");
         } else {
             return Color.parseColor("#008000");
+        }
+    }
+
+    public static float magToBitmap(double mag){
+        if (mag >= 4.0) {
+            return BitmapDescriptorFactory.HUE_RED;
+        } else if (mag <= 3.9 && mag > 2.9) {
+            return BitmapDescriptorFactory.HUE_ORANGE;
+        } else {
+            return BitmapDescriptorFactory.HUE_GREEN;
         }
     }
 
