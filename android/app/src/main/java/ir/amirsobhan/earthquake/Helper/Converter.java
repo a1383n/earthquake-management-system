@@ -1,6 +1,9 @@
 package ir.amirsobhan.earthquake.Helper;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -46,5 +49,21 @@ public class Converter {
 
     public static long toTimestampLong(int time){
         return Long.parseLong(time +"000");
+    }
+
+    /**
+     * A one color image.
+     * @param width
+     * @param height
+     * @param color
+     * @return A one color image with the given width and height.
+     */
+    public static Bitmap colorToBitmap(int width, int height, int color) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
+        return bitmap;
     }
 }
