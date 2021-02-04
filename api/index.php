@@ -121,13 +121,13 @@ $app->get("/earthquakes/nearby", function (Request $request, Response $response,
         $result = Converter::toList(Capsule::connection()->select($sql));
 
         $response->getBody()->write(json_encode(array(
-            'data'=>(sizeof($result) > 0) ? $result[0] : null,
-            'metadata'=>[
-                'count'=>sizeof($result)
+            'data' => (sizeof($result) > 0) ? $result[0] : null,
+            'metadata' => [
+                'count' => sizeof($result)
             ]
         )));
-    }else{
-        $response->getBody()->write(json_encode(['ok'=>'false','des'=>'Lat and Long should not be empty']));
+    } else {
+        $response->getBody()->write(json_encode(['ok' => 'false', 'des' => 'Lat and Long should not be empty']));
     }
 
     return $response->withHeader('Content-Type', 'application/json');
@@ -138,6 +138,7 @@ $app->get("/provinces", function (Request $request, Response $response) {
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
 $app->get("/provinces/{id}", function (Request $request, Response $response, $args) {
     $state = Capsule::table('provinces')->find($args['id']);
     $cities = Capsule::table('regions')->where('province_id', '=', $args['id'])->get();
@@ -146,6 +147,111 @@ $app->get("/provinces/{id}", function (Request $request, Response $response, $ar
         'province' => $state,
         'regions' => $cities
     ]));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get("/chart", function (Request $request, Response $response, $args) {
+    $province = (isset($request->getQueryParams()['province']) && $request->getQueryParams()['province'] > 0) ? $request->getQueryParams()['province'] : null;
+    $region = (isset($request->getQueryParams()['region']) && $request->getQueryParams()['region'] > 0) ? $request->getQueryParams()['region'] : null;
+
+    if ($province) {
+        $province = Capsule::table("provinces")->find($province)->fa_title;
+
+        $year = jdate("Y", '', '', '', 'en');
+
+        $result_1 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1', 'like', '%' . $province . '%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+        $year--;
+
+        $result_2 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1', 'like', '%' . $province . '%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+        $year--;
+
+        $result_3 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1', 'like', '%' . $province . '%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+
+        $response->getBody()->write(json_encode([
+            [
+                'year' => $year,
+                'max_mag' => (int) (isset($result_3[0]->mag)) ? (double) $result_3[0]->mag : null
+            ],
+            [
+                'year' => $year + 1,
+                'max_mag' => (isset($result_2[0]->mag)) ? (double) $result_2[0]->mag : null
+            ],
+            [
+                'year' => $year + 2,
+                'max_mag' => (isset($result_1[0]->mag)) ?(double) $result_1[0]->mag : null
+            ]
+        ]));
+
+    }elseif ($region){
+        $region = Capsule::table("regions")->find($region)->fa_title;
+
+        $year = jdate("Y", '', '', '', 'en');
+
+        $result_1 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1','like',$region.'%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+        $year--;
+
+        $result_2 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1','like',$region.'%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+        $year--;
+
+        $result_3 = Capsule::table("earthquakes")
+            ->where('date', 'like', $year . '%')
+            ->where('reg1','like',$region.'%')
+            ->orderBy('mag', 'desc')
+            ->limit(1)
+            ->get();
+
+        $response->getBody()->write(json_encode([
+            [
+                'year' => $year,
+                'max_mag' => (isset($result_3[0]->mag)) ? (double) $result_3[0]->mag : null
+            ],
+            [
+                'year' => $year + 1,
+                'max_mag' => (isset($result_2[0]->mag)) ? (double) $result_2[0]->mag : null
+            ],
+            [
+                'year' => $year + 2,
+                'max_mag' => (isset($result_1[0]->mag)) ? (double) $result_1[0]->mag : null
+            ]
+        ]));
+
+    }else{
+        $response->getBody()->write(json_encode([
+            'ok'=>false,
+            'des'=>'The province or region should not be empty'
+        ]));
+    }
+
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -191,7 +297,6 @@ $app->get('/sync', function (Request $request, Response $response) {
 
     return $response->withHeader('Content-Type', 'application/json');
 });
-
 
 $app->addErrorMiddleware(true, false, false);
 $app->run();
