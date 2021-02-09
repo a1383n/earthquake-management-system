@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
         apiService.getEarthquakesList(page).enqueue(new Callback<List<Earthquake>>() {
             @Override
             public void onResponse(Call<List<Earthquake>> call, Response<List<Earthquake>> response) {
-                adapter.addViewType(response.body());
+                        adapter.addViewType(response.body());
                 earthquakeList.addAll(lat_index,response.body());
                 adapter.notifyItemRangeChanged(adapter.getItemCount(),earthquakeList.size() - 1);
                 progressBar.setVisibility(View.GONE);

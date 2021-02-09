@@ -24,8 +24,15 @@ public interface ApiService {
     Call<List<Province>> getProvincesList();
 
     @GET("provinces/{id}")
-    Call<RegionList> getRegionsList(@Path("id") int region_id);
+    Call<RegionList> getRegionsList(@Path("id") int province_id);
 
     @GET("chart")
     Call<List<ChartResponse>> getChartInformation(@Query("province") int province,@Query("region") int region);
+
+    @GET("earthquakes")
+    Call<List<Earthquake>> getEarthquakesCustomList(
+            @Query("timestamp") long timestamp,
+            @Query("province") int provinceID,
+            @Query("region") int regionID
+            );
 }

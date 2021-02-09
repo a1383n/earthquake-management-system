@@ -76,7 +76,7 @@ public class ChartFragment extends Fragment {
 
         cartesian = AnyChart.column();
         anyChartView.setChart(cartesian);
-        cartesian.title("نمودار زمین لرزه های اخیر");
+        cartesian.title("زلزله های 3 سال اخیر بر اساس بزرگترین زلزله");
 
     }
 

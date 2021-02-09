@@ -51,6 +51,12 @@ public class Converter {
         return Long.parseLong(time +"000");
     }
 
+    public static long toShortTimestamp(long time){
+        String s = Long.toString(time);
+        s = s.substring(0,s.length() - 3);
+        return Long.parseLong(s);
+    }
+
     /**
      * A one color image.
      * @param width
