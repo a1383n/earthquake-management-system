@@ -27,7 +27,7 @@
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
                 android:gravity="right"
-                android:text="برای دسترسی به مکان شما نیاز به مجوز داریم"
+                android:text="@string/need_location_permission"
                 android:textAppearance="?textAppearanceBody2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="باشه"
+                android:text="@string/ok"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location_banner_message" />
@@ -48,7 +48,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="فعلا نه"
+                android:text="@string/not_now"
                 app:layout_constraintBottom_toBottomOf="@+id/location_banner_pos_btn"
                 app:layout_constraintStart_toEndOf="@+id/location_banner_pos_btn"
                 app:layout_constraintTop_toTopOf="@+id/location_banner_pos_btn" />

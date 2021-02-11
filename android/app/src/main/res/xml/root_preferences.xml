@@ -1,44 +1,46 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        app:title="عمومی">
-            <ListPreference
-                app:key="lang"
-                app:title="زبان"
-                app:icon="@drawable/ic_baseline_language_24"
-                app:summary="Language"
-                app:entries="@array/perf_lang_entries"
-                app:entryValues="@array/perf_lang_values" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="عمومی">
+        <ListPreference
+            app:entries="@array/perf_lang_entries"
+            app:entryValues="@array/perf_lang_values"
+            app:icon="@drawable/ic_baseline_language_24"
+            app:key="lang"
+            app:summary="@string/diffrent_lang"
+            app:title="@string/language" />
+
+        <ListPreference
+            app:entries="@array/pref_theme_entries"
+            app:entryValues="@array/pref_theme_values"
+            app:icon="@drawable/ic_baseline_style_24"
+            app:key="theme"
+            app:title="@string/template" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="نقشه">
+    <PreferenceCategory app:title="نقشه">
         <ListPreference
-            app:key="map_type"
-            android:title="نوع نقشه"
-            app:icon="@drawable/ic_baseline_map_orange_24"
-            app:summary=""
+            android:title="@string/map_type"
             app:entries="@array/pref_map_entries_fa"
-            app:entryValues="@array/pref_map_values"/>
+            app:entryValues="@array/pref_map_values"
+            app:icon="@drawable/ic_baseline_map_orange_24"
+            app:key="map_type"
+            app:summary="" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="اعلان">
+    <PreferenceCategory app:title="اعلان">
         <SwitchPreference
-            app:title="دریافت اعلان وقوع زلزله"
             app:icon="@drawable/ic_baseline_notifications_active_24"
-            />
+            app:title="@string/get_notification_when_eq" />
         <ListPreference
-            app:key="mag_limit"
-            app:title="حداقل بزرگی دریافت اعلان"
-            app:summary="بیشتر از 3"
-            app:icon="@drawable/ic_baseline_graphic_eq_24"
             app:entries="@array/pref_mag_limit_entries"
-            app:entryValues="@array/pref_mag_limit_values"/>
+            app:entryValues="@array/pref_mag_limit_values"
+            app:icon="@drawable/ic_baseline_graphic_eq_24"
+            app:key="mag_limit"
+            app:title="@string/min_value_for_get_notification" />
         <MultiSelectListPreference
-            app:key="province_list"
-            app:title="دریافت هشدار برای استان های خاص"
             app:icon="@drawable/ic_baseline_location_city_24"
-            app:summary="همه استان ها"/>
+            app:key="province_list"
+            app:title="@string/get_notification_for_special_province" />
     </PreferenceCategory>
 </PreferenceScreen>

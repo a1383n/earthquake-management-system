@@ -1,19 +1,29 @@
 <resources>
     <string name="app_name">Earthquakes</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="need_location_permission">We need permission to access your location</string>
+    <string name="ok">OK</string>
+    <string name="not_now">Not now</string>
+    <string name="setting">Setting</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="location">Location</string>
+    <string name="chart">Chart</string>
+    <string name="search">Search</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="language">Language</string>
+    <string name="template">Template</string>
+    <string name="map_type">Map type</string>
+    <string name="get_notification_when_eq">Receive earthquake notification</string>
+    <string name="min_value_for_get_notification">Minimum size to receive notifications</string>
+    <string name="get_notification_for_special_province">Receive alerts for specific provinces</string>
+    <string name="street">Street</string>
+    <string name="satellite">Satellite</string>
+    <string name="biggerThan2">Bigger than 2</string>
+    <string name="biggerThan3">Bigger than 3</string>
+    <string name="biggerThan4">Bigger than 4</string>
+    <string name="biggerThan5">Bigger than 5</string>
+    <string name="biggerThan6">Bigger than 6</string>
+    <string name="biggerThan7">Bigger than 7</string>
+    <string name="diffrent_lang">زبان</string>
 </resources>

@@ -4,13 +4,13 @@
         <item>English</item>
     </string-array>
     <string-array name="perf_lang_values">
-        <item>persian</item>
-        <item>english</item>
+        <item>fa</item>
+        <item>en</item>
     </string-array>
 
     <string-array name="pref_map_entries_fa">
-        <item>خیابانی</item>
-        <item>ماهواره ای</item>
+        <item>@string/street</item>
+        <item>@string/satellite</item>
     </string-array>
 
     <string-array name="pref_map_values">
@@ -19,12 +19,12 @@
     </string-array>
 
     <string-array name="pref_mag_limit_entries">
-        <item>بزرگتر از 2</item>
-        <item>بزرگتر از 3</item>
-        <item>بزرگتر از 4</item>
-        <item>بزرگتر از 5</item>
-        <item>بزرگتر از 6</item>
-        <item>بزرگتر از 7</item>
+        <item>@string/biggerThan2</item>
+        <item>@string/biggerThan3</item>
+        <item>@string/biggerThan4</item>
+        <item>@string/biggerThan5</item>
+        <item>@string/biggerThan6</item>
+        <item>@string/biggerThan7</item>
     </string-array>
 
     <string-array name="pref_mag_limit_values">
@@ -35,4 +35,16 @@
         <item>6</item>
         <item>7</item>
     </string-array>
+
+    <string-array name="pref_theme_entries">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+    </string-array>
+
+    <string-array name="pref_theme_values">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+
 </resources>

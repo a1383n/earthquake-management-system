@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/navigation_home"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_baseline_list_24"
         app:showAsAction="always"/>
     <item
         android:id="@+id/navigation_map"
-        android:title="Map"
+        android:title="@string/map"
         android:icon="@drawable/ic_baseline_map_24"
         app:showAsAction="always"/>
     <item
         android:id="@+id/navigation_location"
-        android:title="Location"
+        android:title="@string/location"
         android:icon="@drawable/ic_baseline_my_location_24"
         app:showAsAction="always"/>
     <item
         android:id="@+id/navigation_chart"
-        android:title="Chart"
+        android:title="@string/chart"
         android:icon="@drawable/ic_baseline_bar_chart_24"
         app:showAsAction="always"/>
     <item
         android:id="@+id/navigation_search"
-        android:title="Search"
+        android:title="@string/search"
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="always"/>
 </menu>

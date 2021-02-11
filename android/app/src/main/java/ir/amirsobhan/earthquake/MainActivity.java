@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.amirsobhan.earthquake.Adapters.ViewPagerAdapter;
 import ir.amirsobhan.earthquake.Fragments.LocationFragment;
+import ir.amirsobhan.earthquake.Helper.LocalizationManager;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalizationManager localizationManager = new LocalizationManager(this);
+        localizationManager.setLocale(LocalizationManager.APP_SETTING);
         setContentView(R.layout.activity_main);
 
         Initialization();

@@ -14,12 +14,14 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import ir.amirsobhan.earthquake.Helper.LocalizationManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalizationManager.getInstance(this).setLocale(LocalizationManager.APP_SETTING);
         setContentView(R.layout.settings_activity);
         MaterialToolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

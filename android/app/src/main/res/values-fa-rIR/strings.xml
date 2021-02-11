@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Earthquakes</string>
+    <string name="need_location_permission">برای دسترسی به مکان به مجوز نیاز داریم</string>
+    <string name="ok">باشه</string>
+    <string name="not_now">فعلا نه</string>
+    <string name="setting">تنظیمات</string>
+    <string name="home">خانه</string>
+    <string name="map">نقشه</string>
+    <string name="location">مکان</string>
+    <string name="chart">نمودار</string>
+    <string name="search">جستجو</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="language">زبان</string>
+    <string name="template">قالب</string>
+    <string name="map_type">نوع نقشه</string>
+    <string name="get_notification_when_eq">دریافت اعلان وقوع زلزله</string>
+    <string name="min_value_for_get_notification">حداقل بزرگی دریافت اعلان</string>
+    <string name="get_notification_for_special_province">دریافت هشدار برای استان های خاص</string>
+    <string name="street">خیابانی</string>
+    <string name="satellite">ماهواره ای</string>
+    <string name="biggerThan2">بزرگتر از 2</string>
+    <string name="biggerThan4">بزرگتر از 4</string>
+    <string name="biggerThan5">بزرگتر از 5</string>
+    <string name="biggerThan6">بزرگتر از 6</string>
+    <string name="biggerThan7">بزرگتر از 7</string>
+    <string name="biggerThan3">بزرگتر از 3</string>
+    <string name="diffrent_lang">Language</string>
+</resources>
