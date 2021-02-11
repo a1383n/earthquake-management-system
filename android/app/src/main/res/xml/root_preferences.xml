@@ -1,0 +1,44 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        app:title="عمومی">
+            <ListPreference
+                app:key="lang"
+                app:title="زبان"
+                app:icon="@drawable/ic_baseline_language_24"
+                app:summary="Language"
+                app:entries="@array/perf_lang_entries"
+                app:entryValues="@array/perf_lang_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="نقشه">
+        <ListPreference
+            app:key="map_type"
+            android:title="نوع نقشه"
+            app:icon="@drawable/ic_baseline_map_orange_24"
+            app:summary=""
+            app:entries="@array/pref_map_entries_fa"
+            app:entryValues="@array/pref_map_values"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="اعلان">
+        <SwitchPreference
+            app:title="دریافت اعلان وقوع زلزله"
+            app:icon="@drawable/ic_baseline_notifications_active_24"
+            />
+        <ListPreference
+            app:key="mag_limit"
+            app:title="حداقل بزرگی دریافت اعلان"
+            app:summary="بیشتر از 3"
+            app:icon="@drawable/ic_baseline_graphic_eq_24"
+            app:entries="@array/pref_mag_limit_entries"
+            app:entryValues="@array/pref_mag_limit_values"/>
+        <MultiSelectListPreference
+            app:key="province_list"
+            app:title="دریافت هشدار برای استان های خاص"
+            app:icon="@drawable/ic_baseline_location_city_24"
+            app:summary="همه استان ها"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -64,7 +64,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap = (googleMap);
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
+        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         setUpClusterer();
         getEarthquakesList();
     }

@@ -1,0 +1,38 @@
+<resources>
+    <string-array name="perf_lang_entries">
+        <item>فارسی</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="perf_lang_values">
+        <item>persian</item>
+        <item>english</item>
+    </string-array>
+
+    <string-array name="pref_map_entries_fa">
+        <item>خیابانی</item>
+        <item>ماهواره ای</item>
+    </string-array>
+
+    <string-array name="pref_map_values">
+        <item>normal</item>
+        <item>satellite</item>
+    </string-array>
+
+    <string-array name="pref_mag_limit_entries">
+        <item>بزرگتر از 2</item>
+        <item>بزرگتر از 3</item>
+        <item>بزرگتر از 4</item>
+        <item>بزرگتر از 5</item>
+        <item>بزرگتر از 6</item>
+        <item>بزرگتر از 7</item>
+    </string-array>
+
+    <string-array name="pref_mag_limit_values">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+</resources>
