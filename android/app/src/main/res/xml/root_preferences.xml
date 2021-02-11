@@ -25,6 +25,7 @@
             app:entryValues="@array/pref_map_values"
             app:icon="@drawable/ic_baseline_map_orange_24"
             app:key="map_type"
+            app:defaultValue="1"
             app:summary="" />
     </PreferenceCategory>
 

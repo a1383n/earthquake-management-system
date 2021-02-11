@@ -1,5 +1,6 @@
 package ir.amirsobhan.earthquake.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
@@ -46,7 +48,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         Initialization(view, savedInstanceState);
-
         return view;
     }
 
@@ -64,7 +65,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap = (googleMap);
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        googleMap.setMapType(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("map_type","1")));
         setUpClusterer();
         getEarthquakesList();
     }
@@ -111,5 +112,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onResume();
         super.onResume();
     }
-
 }
