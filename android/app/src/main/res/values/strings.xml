@@ -26,4 +26,7 @@
     <string name="biggerThan6">Bigger than 6</string>
     <string name="biggerThan7">Bigger than 7</string>
     <string name="diffrent_lang">زبان</string>
+    <string name="language_set">زبان برنامه با موفقیت تغییر کرد.برای اعمال تغیرات باید برنامه دوباره باز شود</string>
+    <string name="system_default">System Default</string>
+    <string name="theme_set">Saved,The app must be restarted to apply the new theme</string>
 </resources>

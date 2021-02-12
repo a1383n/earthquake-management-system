@@ -63,7 +63,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = (googleMap);
-
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMapType(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("map_type","1")));
         setUpClusterer();
@@ -111,5 +110,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        if (googleMap != null){
+            googleMap.setMapType(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("map_type","1")));
+        }
     }
 }

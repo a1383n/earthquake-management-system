@@ -47,4 +47,8 @@ public class LocalizationManager {
             resources.updateConfiguration(configuration,displayMetrics);
         }
     }
+
+    public boolean is(String tag){
+        return configuration.getLocales().toLanguageTags().equals(tag);
+    }
 }

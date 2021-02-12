@@ -2,6 +2,7 @@ package ir.amirsobhan.earthquake;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
@@ -14,8 +15,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.amirsobhan.earthquake.Adapters.ViewPagerAdapter;
-import ir.amirsobhan.earthquake.Fragments.LocationFragment;
 import ir.amirsobhan.earthquake.Helper.LocalizationManager;
+import ir.amirsobhan.earthquake.UI.ThemeManager;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
@@ -23,20 +24,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocalizationManager localizationManager = new LocalizationManager(this);
-        localizationManager.setLocale(LocalizationManager.APP_SETTING);
+        LocalizationManager.getInstance(this).setLocale(LocalizationManager.APP_SETTING);
+        ThemeManager.getInstance(this).setThemeConfig();
         setContentView(R.layout.activity_main);
 
         Initialization();
-    }
 
-    public void Initialization(){
-        navigationView = findViewById(R.id.bottom_navigation);
-        viewPager = findViewById(R.id.main_viewpager);
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle()));
-
-        viewPager.setUserInputEnabled(false);
-        viewPager.setOffscreenPageLimit(5);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -61,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+    }
+
+    public void Initialization(){
+        navigationView = findViewById(R.id.bottom_navigation);
+        viewPager = findViewById(R.id.main_viewpager);
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle()));
+
+        viewPager.setUserInputEnabled(false);
+        viewPager.setOffscreenPageLimit(5);
 
         findViewById(R.id.settingButton).setOnClickListener(new View.OnClickListener() {
             @Override

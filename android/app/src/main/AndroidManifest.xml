@@ -29,8 +29,10 @@
         tools:replace="android:supportsRtl"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SettingsActivity"/>
-        <activity android:name=".MainActivity">
+            android:name=".SettingsActivity"
+            android:configChanges="uiMode"/>
+        <activity android:name=".MainActivity"
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -27,4 +27,7 @@
     <string name="biggerThan7">بزرگتر از 7</string>
     <string name="biggerThan3">بزرگتر از 3</string>
     <string name="diffrent_lang">Language</string>
+    <string name="language_set">Program language changed successfully. Must be reopened to apply changes</string>
+    <string name="system_default">پیش فرض سیستم</string>
+    <string name="theme_set">ذخیره شده است ، برای استفاده از قالب جدید ، برنامه باید دوباره راه اندازی شود</string>
 </resources>
