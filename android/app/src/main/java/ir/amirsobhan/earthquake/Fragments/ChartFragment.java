@@ -1,10 +1,14 @@
 package ir.amirsobhan.earthquake.Fragments;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +19,14 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
+import com.anychart.charts.TagCloud;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.amirsobhan.earthquake.Adapters.ProvinceSpinnerAdapter;
+import ir.amirsobhan.earthquake.Adapters.RegionSpinnerAdapter;
 import ir.amirsobhan.earthquake.Helper.Converter;
 import ir.amirsobhan.earthquake.Models.ChartResponse;
 import ir.amirsobhan.earthquake.Models.Province;
@@ -33,13 +40,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChartFragment extends Fragment {
+    private static final String TAG = "ChartFragment";
     private AnyChartView anyChartView;
     private List<DataEntry> entries = new ArrayList<>();
     private ApiService apiService;
-    private List<String> provinceList = new ArrayList<>();
-    private List<String> regionList = new ArrayList<>();
-    private MaterialSpinner provinceSpinner;
-    private MaterialSpinner regionSpinner;
+    private List<Province> provinceList;
+    private List<Region> regionList;
+    private Spinner provinceSpinner;
+    private Spinner regionSpinner;
     private Cartesian cartesian;
     @Nullable
     @Override
@@ -59,36 +67,44 @@ public class ChartFragment extends Fragment {
         provinceSpinner = view.findViewById(R.id.province_spinner);
         regionSpinner = view.findViewById(R.id.region_spinner);
 
-        provinceSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                getRegionsList(position + 1);
-                getChartInformation(0,position+1);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getRegionsList((int) id);
+                getChartInformation(0, (int) id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
-        regionSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+        regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                getChartInformation(0, position + 1);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getChartInformation(0, (int) id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
         cartesian = AnyChart.column();
         anyChartView.setChart(cartesian);
         cartesian.title("زلزله های 3 سال اخیر بر اساس بزرگترین زلزله");
-
+        cartesian.background("#"+Integer.toHexString(getContext().getResources().getColor(R.color.backgroundColor)).substring(2));
+        anyChartView.addFont("Vazir","file:///android_asset/fonts/Vazir.ttf");
     }
 
     private void getProvincesList() {
         apiService.getProvincesList().enqueue(new Callback<List<Province>>() {
             @Override
             public void onResponse(Call<List<Province>> call, Response<List<Province>> response) {
-                for (Province province : response.body()) {
-                    provinceList.add(province.getFaTitle());
-                }
-                provinceSpinner.setItems(provinceList);
-
+                provinceList = response.body();
+                provinceSpinner.setAdapter(new ProvinceSpinnerAdapter(getContext(),provinceList));
                 getChartInformation(1,0);
             }
 
@@ -103,11 +119,8 @@ public class ChartFragment extends Fragment {
         apiService.getRegionsList(region_id).enqueue(new Callback<RegionList>() {
             @Override
             public void onResponse(Call<RegionList> call, Response<RegionList> response) {
-                regionList.clear();
-                for (Region region : response.body().getRegions()) {
-                    regionList.add(region.getFaTitle());
-                }
-                regionSpinner.setItems(regionList);
+                regionList = response.body().getRegions();
+                regionSpinner.setAdapter(new RegionSpinnerAdapter(getContext(),regionList));
             }
 
             @Override
@@ -127,6 +140,7 @@ public class ChartFragment extends Fragment {
                 }
                 cartesian.data(entries);
                 anyChartView.invalidate();
+                Log.i(TAG, "onResponse: "+ call.request().url());
 
             }
 

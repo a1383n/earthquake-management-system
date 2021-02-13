@@ -39,6 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/ok"
+                android:textColor="@color/primary_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location_banner_message" />
@@ -49,6 +50,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/not_now"
+                android:textColor="@color/primary_text"
                 app:layout_constraintBottom_toBottomOf="@+id/location_banner_pos_btn"
                 app:layout_constraintStart_toEndOf="@+id/location_banner_pos_btn"
                 app:layout_constraintTop_toTopOf="@+id/location_banner_pos_btn" />
