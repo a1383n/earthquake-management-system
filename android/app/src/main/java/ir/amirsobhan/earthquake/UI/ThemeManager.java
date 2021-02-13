@@ -41,7 +41,7 @@ public class ThemeManager {
         switch (getThemeType()) {
             case LIGHT:
                 if (uiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_NO)
-                    uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case DARK:
                 if (uiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_YES)

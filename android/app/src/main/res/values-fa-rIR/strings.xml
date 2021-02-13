@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Earthquakes</string>
+    <string name="app_name">لرزه نگار</string>
     <string name="need_location_permission">برای دسترسی به مکان به مجوز نیاز داریم</string>
     <string name="ok">باشه</string>
     <string name="not_now">فعلا نه</string>

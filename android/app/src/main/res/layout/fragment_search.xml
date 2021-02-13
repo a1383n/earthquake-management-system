@@ -8,20 +8,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
+        <Spinner
             android:id="@+id/province_spinner"
-            android:layout_width="125dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/region_spinner"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
+        <Spinner
             android:id="@+id/region_spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -31,7 +33,7 @@
             app:layout_constraintStart_toEndOf="@+id/date_spinner"
             app:layout_constraintTop_toTopOf="@+id/province_spinner" />
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
+        <Spinner
             android:id="@+id/date_spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
