@@ -1,7 +1,11 @@
 package ir.amirsobhan.earthquake.Adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +14,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import ir.amirsobhan.earthquake.DetailsActivity;
 import ir.amirsobhan.earthquake.Helper.Converter;
 import ir.amirsobhan.earthquake.Helper.Utils.PersianCalendar;
 import ir.amirsobhan.earthquake.Models.Earthquake;
@@ -21,14 +28,16 @@ import ir.amirsobhan.earthquake.R;
 
 public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
+    private Activity activity;
     public List<Earthquake> earthquakeList;
     public static int VIEW_TYPE_DATE = 0;
     public static int VIEW_TYPE_DETAIL = 1;
 
-    public EarthquakeAdapter(Context context, List<Earthquake> earthquakeList) {
+    public EarthquakeAdapter(Context context, Activity activity, List<Earthquake> earthquakeList) {
         this.context = context;
-        addViewType(earthquakeList);
+        this.activity = activity;
         this.earthquakeList = earthquakeList;
+        addViewType(earthquakeList);
     }
 
     @NonNull
@@ -60,6 +69,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ViewHolder viewHolder = (ViewHolder) holder;
             //Set date
             PersianCalendar calendar = new PersianCalendar();
+
             calendar.setTimeInMillis(earthquake.getTimestamp());
 
 
@@ -74,6 +84,23 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
             viewHolder.date.setText(Converter.toFaNum(calendar.getPersianLongDateAndTime()));
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context,DetailsActivity.class);
+
+                    intent.putExtra("json",new Gson().toJson(earthquake));
+
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View,String>(((ViewHolder) holder).mag,"magTransition");
+
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,pairs);
+
+                    context.startActivity(intent,options.toBundle());
+                }
+            });
         }else{
             //Set date
             PersianCalendar calendar = new PersianCalendar();

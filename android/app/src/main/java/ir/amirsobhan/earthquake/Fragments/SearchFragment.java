@@ -77,7 +77,7 @@ public class SearchFragment extends Fragment {
         textView = view.findViewById(R.id.search_info);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new EarthquakeAdapter(getContext(),earthquakeList);
+        adapter = new EarthquakeAdapter(getContext(),getActivity(),earthquakeList);
 
         getProvinceList();
     }
@@ -188,7 +188,7 @@ public class SearchFragment extends Fragment {
         apiService.getEarthquakesCustomList(timestamp,provinceID,regionID).enqueue(new Callback<List<Earthquake>>() {
             @Override
             public void onResponse(Call<List<Earthquake>> call, Response<List<Earthquake>> response) {
-                adapter = new EarthquakeAdapter(getContext(),response.body());
+                adapter = new EarthquakeAdapter(getContext(),getActivity(),response.body());
                 recyclerView.setAdapter(adapter);
                 Log.i(TAG, "onResponse: "+response.body().size());
                 Log.i(TAG, "onResponse: "+call.request().url());

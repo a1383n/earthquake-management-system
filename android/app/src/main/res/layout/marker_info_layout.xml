@@ -14,6 +14,7 @@
         android:text="Mag"
         android:textSize="23dp"
         android:textColor="#FFF"
+        android:fontFamily="@font/vazir"
         app:layout_constraintBottom_toTopOf="@+id/map_info_reg1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +27,7 @@
         android:text="Reg"
         android:textSize="15dp"
         android:textColor="#FFF"
+        android:fontFamily="@font/vazir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

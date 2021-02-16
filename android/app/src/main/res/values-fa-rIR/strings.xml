@@ -30,4 +30,5 @@
     <string name="language_set">Program language changed successfully. Must be reopened to apply changes</string>
     <string name="system_default">پیش فرض سیستم</string>
     <string name="theme_set">ذخیره شده است ، برای استفاده از قالب جدید ، برنامه باید دوباره راه اندازی شود</string>
+    <string name="eq_info">اطلاعات زمین لرزه</string>
 </resources>

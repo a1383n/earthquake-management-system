@@ -29,4 +29,5 @@
     <string name="language_set">زبان برنامه با موفقیت تغییر کرد.برای اعمال تغیرات باید برنامه دوباره باز شود</string>
     <string name="system_default">System Default</string>
     <string name="theme_set">Saved,The app must be restarted to apply the new theme</string>
+    <string name="eq_info">Earthquake Information</string>
 </resources>

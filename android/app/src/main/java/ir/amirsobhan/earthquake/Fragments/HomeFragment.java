@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.home_refresh);
 
         earthquakeList = new ArrayList<>();
-        adapter = new EarthquakeAdapter(getContext(),earthquakeList);
+        adapter = new EarthquakeAdapter(getContext(),getActivity(),earthquakeList);
 
         recyclerView.setAdapter(adapter);
 
@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
             public void onRefresh() {
                 linearLayoutManager = new LinearLayoutManager(getContext());
                 earthquakeList = new ArrayList<>();
-                adapter = new EarthquakeAdapter(getContext(),earthquakeList);
+                adapter = new EarthquakeAdapter(getContext(),getActivity(),earthquakeList);
                 recyclerView.setAdapter(adapter);
                 getEarthquakesList(0,0);
             }

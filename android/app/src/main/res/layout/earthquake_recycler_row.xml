@@ -18,11 +18,12 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@color/accent"
-            android:fontFamily="@font/open_sans_bold"
+            android:fontFamily="@font/vazir"
             android:gravity="center"
             android:text="5.0"
             android:textColor="@color/icons"
             android:textSize="40sp"
+            android:transitionName="magTransition"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
