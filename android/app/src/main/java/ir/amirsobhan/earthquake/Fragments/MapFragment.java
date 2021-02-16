@@ -20,6 +20,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 
@@ -32,6 +33,7 @@ import ir.amirsobhan.earthquake.Models.EarthquakeMapMarker;
 import ir.amirsobhan.earthquake.R;
 import ir.amirsobhan.earthquake.Retrofit.ApiService;
 import ir.amirsobhan.earthquake.Retrofit.RetrofitClient;
+import ir.amirsobhan.earthquake.UI.ThemeManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,6 +65,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = (googleMap);
+        if (ThemeManager.getInstance(getContext()).getCurrentTheme() == ThemeManager.DARK)
+            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),R.raw.map_dark));
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMapType(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("map_type","1")));
         setUpClusterer();

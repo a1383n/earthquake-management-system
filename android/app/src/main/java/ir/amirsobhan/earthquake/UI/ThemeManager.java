@@ -3,6 +3,7 @@ package ir.amirsobhan.earthquake.UI;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
@@ -28,8 +29,8 @@ public class ThemeManager {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
 
-        if (preferences.getString(KEY,null) == null){
-            preferences.edit().putString(KEY,LIGHT).apply();
+        if (preferences.getString(KEY, null) == null) {
+            preferences.edit().putString(KEY, LIGHT).apply();
         }
     }
 
@@ -65,6 +66,18 @@ public class ThemeManager {
                 return uiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_AUTO;
         }
         return false;
+    }
+
+    public String getCurrentTheme() {
+        int modeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (modeFlags) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                return LIGHT;
+            case Configuration.UI_MODE_NIGHT_YES:
+                return DARK;
+            default:
+                return LIGHT;
+        }
     }
 
 }

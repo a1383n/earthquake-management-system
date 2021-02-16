@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -17,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import ir.amirsobhan.earthquake.DetailsActivity;
 import ir.amirsobhan.earthquake.Helper.Converter;
+import ir.amirsobhan.earthquake.Helper.LocalizationManager;
 import ir.amirsobhan.earthquake.Helper.Utils.PersianCalendar;
 import ir.amirsobhan.earthquake.Models.Earthquake;
 import ir.amirsobhan.earthquake.R;
@@ -38,6 +42,8 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.activity = activity;
         this.earthquakeList = earthquakeList;
         addViewType(earthquakeList);
+
+        LocalizationManager.getInstance(context).setLocale(LocalizationManager.APP_SETTING);
     }
 
     @NonNull
@@ -67,37 +73,44 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (earthquake.getViewType() == VIEW_TYPE_DETAIL) {
             ViewHolder viewHolder = (ViewHolder) holder;
-            //Set date
-            PersianCalendar calendar = new PersianCalendar();
+            if (!LocalizationManager.getInstance(context).is(LocalizationManager.ENGLISH)) {
+                //Set date
+                PersianCalendar calendar = new PersianCalendar();
+                calendar.setTimeInMillis(earthquake.getTimestamp());
+                //Set values
+                viewHolder.city.setText(earthquake.getRegion().getFaTitle());
+                viewHolder.state.setText(earthquake.getProvince().getFaTitle());
+                viewHolder.mag.setText(Converter.toFaNum(earthquake.getMag().toString()));
+                viewHolder.head_date = calendar.getPersianLongDate();
+                //Set Properties
+                viewHolder.mag.setBackgroundColor(Converter.magToColor(earthquake.getMag()));
+                viewHolder.date.setText(Converter.toFaNum(calendar.getPersianLongDateAndTime()));
+            }else{
+                if (TextUtils.isEmpty(earthquake.getRegion().getEnTitle()))
+                    earthquake.getRegion().setEnTitle(earthquake.getRegion().getFaTitle());
 
-            calendar.setTimeInMillis(earthquake.getTimestamp());
-
-
-            //Set values
-            viewHolder.city.setText(earthquake.getRegion().getFaTitle());
-            viewHolder.state.setText(earthquake.getProvince().getFaTitle());
-            viewHolder.mag.setText(Converter.toFaNum(earthquake.getMag().toString()));
-
-            viewHolder.head_date = calendar.getPersianLongDate();
-            //Set Properties
-            viewHolder.mag.setBackgroundColor(Converter.magToColor(earthquake.getMag()));
-
-
-            viewHolder.date.setText(Converter.toFaNum(calendar.getPersianLongDateAndTime()));
-
+                //Set date
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(earthquake.getTimestamp());
+                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
+                SimpleDateFormat format2 = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+                //Set values
+                viewHolder.city.setText(earthquake.getRegion().getEnTitle());
+                viewHolder.state.setText(earthquake.getProvince().getEnTitle());
+                viewHolder.mag.setText(earthquake.getMag().toString());
+                viewHolder.head_date = format2.format(calendar.getTime());
+                //Set Properties
+                viewHolder.mag.setBackgroundColor(Converter.magToColor(earthquake.getMag()));
+                viewHolder.date.setText(format.format(calendar.getTime()));
+            }
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent intent = new Intent(context,DetailsActivity.class);
-
                     intent.putExtra("json",new Gson().toJson(earthquake));
-
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View,String>(((ViewHolder) holder).mag,"magTransition");
-
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,pairs);
-
                     context.startActivity(intent,options.toBundle());
                 }
             });
