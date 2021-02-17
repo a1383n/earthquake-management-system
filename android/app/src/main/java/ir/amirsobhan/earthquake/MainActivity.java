@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.amirsobhan.earthquake.Adapters.ViewPagerAdapter;
@@ -71,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,SettingsActivity.class));
             }
         });
+
+        // Obtain the FirebaseAnalytics instance.
+        FirebaseAnalytics.getInstance(this);
+
+        // Obtain the FirebaseMessaging instance.
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
     }
 
     @Override
