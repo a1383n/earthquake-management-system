@@ -7,6 +7,8 @@ use Slim\Factory\AppFactory;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 
+// TODO: Use models Instead of arrays
+
 //Slim setup
 $app = AppFactory::create();
 
@@ -278,6 +280,10 @@ $app->get('/sync', function (Request $request, Response $response) {
             ]);
 
             $row->reg1 = Converter::location($row->reg1);
+
+            //Send Notification
+            $messaging = new Messaging();
+            $messaging->sendMessage(new Earthquake(0,new Region(0,$row->reg1[1],""),new Province(0,$row->reg1[0],Converter::getEnglishProvinceName($row->reg1[0])),0,0,$row->mag,0,0));
 
             if (Capsule::table('provinces')->where('fa_title', '=', $row->reg1[0])->get()->count() == 0) {
                 Capsule::table('provinces')->insert([

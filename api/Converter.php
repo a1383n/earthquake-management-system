@@ -91,4 +91,10 @@ class Converter
     public static function timestampToJalali($timestamp){
         return jdate("Y/m/d",$timestamp,'','','en');
     }
+
+    public static function getEnglishProvinceName($fa_title){
+        $province = Capsule::table('provinces')->where('fa_title', '=', $fa_title)->get()[0];
+
+        return $province->en_title;
+    }
 }
