@@ -6,11 +6,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-
 // TODO: Use models Instead of arrays
 
 //Slim setup
 $app = AppFactory::create();
+
 
 //DB setup
 $db = new Capsule;

@@ -48,8 +48,7 @@ class Messaging
 
 
         $message = CloudMessage::withTarget("condition",$this->generateConditionString($earthquake))
-            ->withNotification($notification)//     ->withAndroidConfig($androidConfig)
-        ;
+            ->withNotification($notification);
 
 
         $this->messagingService->send($message);
@@ -66,6 +65,8 @@ class Messaging
     private function generateTopicString($lang, $mag, $en_province)
     {
         // fa_3_tehran Ex.
+
+        $en_province = str_replace(" ","_",$en_province);
 
         return $lang . "_" . $mag . "_" . strtolower(($en_province == null) ? "all" : $en_province);
     }
